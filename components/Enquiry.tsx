@@ -12,16 +12,21 @@ type Errors = Partial<Record<"name" | "email" | "message", string>>;
 const FIELD =
   "w-full border border-line bg-surface px-4 py-3.5 text-platinum placeholder:text-stone/70 transition-colors duration-300 focus:border-amber focus:outline-none focus:ring-1 focus:ring-amber/70";
 
+// Paste your free Web3Forms access key here to deliver enquiries to your inbox.
+// Get one in 30s at https://web3forms.com (no account needed). It's safe to be public.
+const WEB3FORMS_KEY = "";
+
 export function Enquiry() {
   const [status, setStatus] = useState<Status>("idle");
   const [errors, setErrors] = useState<Errors>({});
   const mag = useMagnetic(0.25);
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const data = new FormData(e.currentTarget);
     const name = String(data.get("name") ?? "").trim();
     const email = String(data.get("email") ?? "").trim();
+    const phone = String(data.get("phone") ?? "").trim();
     const message = String(data.get("message") ?? "").trim();
 
     const next: Errors = {};
@@ -35,8 +40,35 @@ export function Enquiry() {
     if (Object.keys(next).length > 0) return;
 
     setStatus("submitting");
-    // No backend in this build — simulate a personal reply pipeline.
-    window.setTimeout(() => setStatus("success"), 1300);
+
+    // Until a delivery key is added, show success without sending.
+    if (!WEB3FORMS_KEY) {
+      window.setTimeout(() => setStatus("success"), 1000);
+      return;
+    }
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: "Νέο αίτημα — AKRA",
+          from_name: name,
+          name,
+          email,
+          phone,
+          message,
+        }),
+      });
+      const json = await res.json();
+      setStatus(json.success ? "success" : "error");
+    } catch {
+      setStatus("error");
+    }
   }
 
   return (
@@ -147,6 +179,13 @@ export function Enquiry() {
                   Με απόλυτη εχεμύθεια. Δεν κοινοποιείται ποτέ.
                 </p>
               </div>
+
+              {status === "error" && (
+                <p className="text-sm text-amber-bright">
+                  Κάτι πήγε στραβά. Δοκιμάστε ξανά ή γράψτε μας απευθείας στο
+                  enquiries@akraresidences.gr.
+                </p>
+              )}
             </form>
           </Reveal>
         )}
