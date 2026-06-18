@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment } from "react";
+import Link from "next/link";
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import { MagneticButton } from "./MagneticButton";
 
@@ -60,15 +61,15 @@ export function Intro() {
             >
               Ιδιωτικό Αίτημα
             </MagneticButton>
-            <a
-              href="#residences"
+            <Link
+              href="/katoikies"
               className="group inline-flex items-center justify-center gap-2 whitespace-nowrap border border-platinum/25 px-7 py-3.5 font-display text-[0.74rem] uppercase tracking-[0.22em] text-platinum transition-all duration-300 hover:-translate-y-px hover:border-platinum/60"
             >
               Δείτε τις κατοικίες
               <span className="transition-transform duration-300 group-hover:translate-x-1">
                 &rarr;
               </span>
-            </a>
+            </Link>
           </motion.div>
         </motion.div>
       </div>
