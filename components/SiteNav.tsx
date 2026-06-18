@@ -32,7 +32,7 @@ export function SiteNav() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 border-b border-line bg-ink/90 backdrop-blur-md transition-all duration-500 ${
+      className={`fixed inset-x-0 top-0 z-50 border-b border-line bg-ink pt-[env(safe-area-inset-top)] transition-all duration-500 ${
         visible
           ? "translate-y-0 opacity-100"
           : "pointer-events-none -translate-y-full opacity-0"
