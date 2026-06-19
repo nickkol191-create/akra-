@@ -27,8 +27,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  viewportFit: "cover", // allow safe-area insets (iPhone notch) to be used
-  themeColor: "#08090c", // browser chrome matches the dark theme on mobile
+  themeColor: "#08090c", // status bar matches the dark theme; page stays below it
   colorScheme: "dark",
 };
 
