@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { ResidencesGrid } from "@/components/ResidencesGrid";
 import { BackHomeLink } from "@/components/BackHomeLink";
@@ -13,7 +12,6 @@ export const metadata: Metadata = {
 export default function KatoikiesPage() {
   return (
     <>
-      <SiteNav />
       <main className="bg-ink">
         <section className="mx-auto max-w-[1400px] px-5 pb-24 pt-32 sm:px-8 md:pb-32 md:pt-40">
           <BackHomeLink className="group mb-10 inline-flex items-center gap-2 font-display text-[0.7rem] uppercase tracking-[0.22em] text-stone transition-colors duration-300 hover:text-platinum">

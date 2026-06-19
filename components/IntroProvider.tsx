@@ -29,7 +29,7 @@ export function IntroProvider({ children }: { children: React.ReactNode }) {
   // (browsers otherwise restore the previous scroll position).
   useEffect(() => {
     if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-    if (!window.location.hash) window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, []);
 
   // Lock scroll until the loader is done AND (if there's a hero gate) the viewer

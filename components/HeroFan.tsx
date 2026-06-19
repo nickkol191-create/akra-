@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { VILLAS } from "./villas";
 import { useIntro } from "./IntroProvider";
@@ -103,9 +103,26 @@ export function HeroFan() {
     return () => setGate(false);
   }, [setGate]);
 
-  // Arriving at a section (e.g. /#approach) from another page: skip the hero
-  // gate so scrolling works, and jump to that section.
+  // `ready` captured at mount tells us how we arrived:
+  //  - false  -> a fresh load / refresh: the loader is about to play, so we
+  //    always start at the hero. Ignore any leftover #hash and any browser
+  //    scroll restoration (which on mobile would jump us mid-page once the
+  //    scroll-lock releases).
+  //  - true   -> in-app navigation (e.g. footer "Πώς εργαζόμαστε" -> /#approach):
+  //    skip the hero gate and jump to that section.
+  const readyAtMount = useRef(ready);
   useEffect(() => {
+    if (!readyAtMount.current) {
+      if (window.location.hash) {
+        history.replaceState(
+          null,
+          "",
+          window.location.pathname + window.location.search
+        );
+      }
+      window.scrollTo(0, 0);
+      return;
+    }
     const hash = window.location.hash;
     if (!hash) return;
     setEntered(true);
@@ -114,6 +131,16 @@ export function HeroFan() {
       if (el) el.scrollIntoView({ behavior: "auto" });
     }, 250);
     return () => window.clearTimeout(id);
+  }, [setEntered]);
+
+  // Enter the fan and force the view to the top, overriding any pending mobile
+  // scroll restoration that fires when the scroll-lock releases.
+  const enter = useCallback(() => {
+    setEntered(true);
+    const top = () => window.scrollTo(0, 0);
+    top();
+    requestAnimationFrame(top);
+    window.setTimeout(top, 80);
   }, [setEntered]);
 
   useEffect(() => {
@@ -228,9 +255,9 @@ export function HeroFan() {
             role="button"
             tabIndex={0}
             aria-label="Είσοδος στις κατοικίες"
-            onClick={() => ready && setEntered(true)}
+            onClick={() => ready && enter()}
             onKeyDown={(e) => {
-              if (ready && (e.key === "Enter" || e.key === " ")) setEntered(true);
+              if (ready && (e.key === "Enter" || e.key === " ")) enter();
             }}
             exit={{ opacity: 0, transition: { duration: 0.45, delay: 0.35 } }}
           >

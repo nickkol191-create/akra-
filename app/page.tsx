@@ -1,4 +1,3 @@
-import { SiteNav } from "@/components/SiteNav";
 import { HeroFan } from "@/components/HeroFan";
 import { Intro } from "@/components/Intro";
 import { Statement } from "@/components/Statement";
@@ -12,7 +11,6 @@ import { DecoDivider } from "@/components/DecoDivider";
 export default function Home() {
   return (
     <>
-      <SiteNav />
       <main>
         <HeroFan />
         <Intro />

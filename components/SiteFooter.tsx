@@ -14,12 +14,16 @@ export function SiteFooter() {
       <div className="mx-auto max-w-[1400px] px-5 py-16 sm:px-8 md:py-20">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-12">
           <div className="min-w-0 md:col-span-6">
-            <div className="flex items-center gap-3">
-              <Monogram className="h-6 w-7 text-amber" />
+            <Link
+              href="/"
+              className="group inline-flex items-center gap-3"
+              aria-label="ΑΚΡΑ, αρχική"
+            >
+              <Monogram className="h-6 w-7 text-amber transition-transform duration-500 group-hover:-translate-y-0.5" />
               <span className="font-display text-base font-medium tracking-[0.42em] text-platinum">
                 AKRA
               </span>
-            </div>
+            </Link>
             <p className="mt-6 max-w-[34ch] text-sm leading-relaxed text-stone">
               Παράκτιες κατοικίες στην Αθηναϊκή Ριβιέρα. Κατόπιν ραντεβού.
             </p>

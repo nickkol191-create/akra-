@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { SiteNav } from "@/components/SiteNav";
 import { SiteFooter } from "@/components/SiteFooter";
 import { VILLAS, getVilla } from "@/components/villas";
 
@@ -33,7 +32,6 @@ export default async function VillaPage({
 
   return (
     <>
-      <SiteNav />
       <main className="bg-ink">
         {/* full-bleed villa image */}
         <section className="relative flex min-h-[78vh] items-end overflow-hidden">
